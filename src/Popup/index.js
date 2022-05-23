@@ -1,10 +1,5 @@
 // Initialize button with user's preferred color
-let changeColor = document.getElementById('changeColor')
 let toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode')
-
-chrome.storage.sync.get('color', ({ color }) => {
-  changeColor.style.backgroundColor = color
-})
 
 chrome.storage.sync.get('toggleOnDefault', ({ toggleOnDefault }) => {
   toggleOnDefaultCheckbox.checked = toggleOnDefault
