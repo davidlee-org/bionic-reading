@@ -21,3 +21,9 @@ In a digital world dominated by shallow forms of reading, Bionic Reading aims to
 
 Read more about [Bionic Reading](https://bionic-reading.com/about/).
 
+## How to build
+Need to install npm and yarn
+To build run followings
+1. yarn install
+2. yarn build (This will create extentions for chrome, firefox and opera inside extention folder)
+to debug run - yarn dev:chrome
