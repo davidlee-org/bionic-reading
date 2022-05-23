@@ -12,14 +12,35 @@ chrome.storage.sync.get('toggleOnDefault', ({ toggleOnDefault }) => {
 
 // When the button is clicked, inject convertToReadbaleText into current page
 changeColor.addEventListener('click', async () => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id, allFrames: true },
-    files: ['src/convert.js'],
-  })
+  chrome.tabs.query({ active: true }, function (tabs) {
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      { type: "toggleReadingMode", data: undefined },
+      () => {
+        if (chrome.runtime.lastError) {
+        }
+      }
+    );
+  });
 })
 
 toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
   chrome.storage.sync.set({ toggleOnDefault: event.target.checked })
+  chrome.tabs.query({}, function (tabs) {
+    tabs.forEach((tab) => {
+      return new Promise(() => {
+        try {
+          
+          chrome.tabs.sendMessage(
+            tab.id,
+            { type: "setReadingMode", data: event.target.checked },
+            () => {
+              if (chrome.runtime.lastError) {
+              }
+            }
+          );
+        } catch (e) {}
+      });
+    });
+  });
 })
